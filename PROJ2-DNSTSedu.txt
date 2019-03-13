@@ -1,0 +1,3 @@
+qtsdatacenter.aws.edu 128.60.3.2 A
+grep.cs.princeton.edu 182.49.3.2 A
+www.google.edu 8.7.45.2 A

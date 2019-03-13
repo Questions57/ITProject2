@@ -1,0 +1,156 @@
+Project 2: Recursive DNS root server and multiple TLD servers
+=============================================================
+
+Overview
+--------
+
+The goal of this project is to extend your simple DNS system from project 1 to
+incorporate recursive resolution from the root name server and multiple
+top-level domain servers.  In this project, you will implement two top-level
+domain name servers TS_edu and TS_com (corresponding to .edu and .com
+respectively) in addition to the root name server (RS) and a client
+program. Overall, you will have four different programs.
+
+In Project 1, you have already implemented a client program with two
+sockets. Now extend the root server to contain three sockets, one to accept
+connections from the client, and two others to make connections to the TLD
+servers TS_edu and TS_com. Also, the root server operates in recursive mode. If
+a hostname is not found in its table, based on the domain of the hostname
+specified in the query, the root server will contact the appropriate TLD server,
+get the response from that TLD server, and send the response back to the client.
+
+The RS and the two TS programs each maintain a DNS_table consisting of three
+fields:
+
+- Hostname
+- IP address
+- Flag (A or NS)
+
+The DNS table for the RS server contains two NS records indicating the hostnames
+for each of the TS servers (distinguished using their suffixes, .edu or .com, as
+part of the listed hostname). The client always connects first to the RS server
+and sends the Hostname as a string. The RS server does a look up in its DNS
+table, and if there is a match, sends the DNS table entry as a string:
+
+Hostname IPaddress A
+
+If the domain name does NOT end with a .com or a .edu and it is NOT found in
+the local DNS table of the root server, RS returns the string
+
+Hostname - Error:HOST NOT FOUND
+
+If the hostname in the query string ends in either a .com or a .edu, AND the
+queried hostname is NOT in the DNS table of the root server, the root server
+makes a connection with the appropriate TLD server. Use the IP address listed
+against the TLD server in the appropriate NS record in the DNS table to make a
+connection with the TLD server.
+
+Each TLD server on receiving a hostname string performs a lookup and returns
+
+Hostname IPAddress A
+
+to the root server if the hostname is found in its local DNS table, or
+
+Hostname - Error:HOST NOT FOUND
+
+otherwise. 
+
+The root server sends this reply directly to the client.
+
+The client outputs the string received from the root server. In this project,
+the client only needs to maintain one connection -- the one with the root
+server.
+
+As in Project 1, in all outputs above, Hostname is the hostname queried by the
+client. 
+
+Note that all DNS lookups are case-insensitive. If there is a hit in the local
+DNS table, the server programs must respond with the version of the string that
+is in their local DNS table.
+
+How we will test your programs
+------------------------------
+
+As part of your submission, you will turn in four programs: rs.py, ts_com.py,
+ts_edu.py, and client.py, and one README file (more on this below). We will be
+running the four programs on the ilab machines with Python 2.7.
+
+Please do not assume that all programs will run on the same machine or that all
+connections are made to the local host.  We reserve the right to test your
+programs with local and remote socket connections, for example with client.py,
+ts_com.py, ts_edu.py, and rs.py each running on a different machine. You are
+welcome to simplify the initial development and debugging of your project, and
+get off the ground by running all programs on one machine first. However, you
+must eventually ensure that the programs can work across multiple machines.
+
+The programs must work with the following command lines:
+
+python ts_edu.py tsEduListenPort
+python ts_com.py tsComListenPort
+python rs.py rsListenPort tsEduListenPort tsComListenPort
+python client.py rsHostname rsListenPort
+
+Here tsEduListenPort/tsComListenPort/rsListenPort is the port on which the edu
+TS/com TS/RS program listens for requests. rsHostname is the hostname of the
+machine running the RS program. Note that the IP addresses needed to connect
+with TS_edu and TS_com will be in the DNS table for RS; we don't specify it on
+the command line.
+
+The hostname strings to be queried will be given one per line in a file
+PROJ2-HNS.txt.
+
+The entries in the DNS tables (one each for RS, TS_edu, and TS_com) will be
+strings with fields separated by spaces. There will be one entry per line. You
+can see the format in PROJ2-DNSRS.txt, PROJ2-DNSTSedu.txt, and
+PROJ2-DNSTScom.txt. Your server programs should populate the DNS table by
+reading the entries from the corresponding files.
+
+Your client program should output the results to a file RESOLVED.txt, with one
+line per result.
+
+See the samples attached in this folder.
+
+We will test your programs by running them with the hostnames and tables in the
+attached input files (*.txt) as well as with new hostnames and table
+configurations. You will be graded based on the outputs in RESOLVED.txt. Your
+programs should not crash on correct inputs.
+
+README file
+-----------
+
+In addition to your programs, you must also submit a README file with clearly
+dilenated sections for the following.
+
+0. Please write down the full names and netids of all your team members.
+1. Briefly discuss how you implemented your recursive root and TLD server
+   functionality.
+2. Are there known issues or functions that aren't working currently in your
+   attached code? If so, explain.
+3. What problems did you face developing code for this project?
+4. What did you learn by working on this project?
+
+Submission
+----------
+
+Turn in your project on Sakai assignments. Only one team member needs to
+submit. Please upload a single zip file consisting of client.py, rs.py,
+ts_edu.py, ts_com.py, and README.
+
+Some notes and tips
+-------------------
+
+Note that root name servers in reality (ie: the global Internet DNS system) do
+not implement recursive queries. It would impose far too much load on the root
+servers and open up the DNS system to denial of service attacks.
+
+Run your programs by first starting the TS programs, the RS program, and then
+the client program. Brief sketches of the interactions among the programs is
+attached in this folder.
+
+DNS lookups are case-insensitive.
+
+It is okay to assume that each DNS entry or host name is smaller than 200
+characters.
+
+START EARLY to allow plenty of time for questions on Piazza should you run into
+difficulties.

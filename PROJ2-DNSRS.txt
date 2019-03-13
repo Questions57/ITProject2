@@ -1,0 +1,8 @@
+qtsdatacenter.aws.com 128.64.3.2 A
+mx.rutgers.edu 192.64.4.2 A
+kill.cs.rutgers.edu 182.48.3.2 A
+TLDS2.com 127.0.0.1 NS
+www.ibm.com 64.42.3.4 A
+TLDS1.edu 127.0.0.1 NS
+www.google.com 8.6.4.2 A
+bit.ly 192.168.4.5 A

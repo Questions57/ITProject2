@@ -1,0 +1,8 @@
+kill.cs.rutgers.edu 182.48.3.2 A
+mx.rutgers.com 192.14.4.5 A
+rutgers.com - Error:HOST NOT FOUND
+www.google.edu 8.7.45.2 A
+grep.cs.rutgers.edu - Error:HOST NOT FOUND
+bit.ly 192.168.4.5 A
+happi.ly - Error:HOST NOT FOUND
+mx.rutgers.edu 192.64.4.2 A
