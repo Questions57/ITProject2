@@ -44,6 +44,8 @@ queried_hostname= conn.recv(2048)
 for query in DNSTS_COM
 	if queried_hostname == DNSTS_COM[query]:
 		conn.sendall(DNSTS_COM[query])
+	else:
+		conn.sendall("ERROR:HOST NOT FOUND")
 
 
 

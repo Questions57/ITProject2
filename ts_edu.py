@@ -2,7 +2,7 @@ import socket
 import sys
 
 
-DNSTS_EDU_table = {}
+DNSTS_EDU = {}
 file = open("PROJ2-DNSTSedu.txt", "r")
 
 #looping through each line to fill table info
@@ -44,6 +44,9 @@ queried_hostname= conn.recv(2048)
 for query in DNSTS_EDU
 	if queried_hostname == DNSTS_EDU[query]:
 		conn.sendall(DNSTS_EDU[query])
+	else:
+		conn.sendall("ERROR:HOST NOT FOUND")
+
 
 
 
