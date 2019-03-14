@@ -2,15 +2,15 @@ import socket
 import sys
 
 
-DNSRS_table = {}
-file = open("PROJI-DNSTS.txt", "r")
+DNSTS_EDU_table = {}
+file = open("PROJ2-DNSTSedu.txt", "r")
 
 #looping through each line to fill table info
 for line in file: 
 	elems = line.split()
 	hostname = elems[0].lower()
 	value = elems[1]+" "+elems[2]
-	DNSRS_table[hostname] = value
+	DNSTS_EDU[hostname] = value
 	
 
 file.close() 
@@ -39,17 +39,13 @@ conn, addr = ss.accept()
 
 
 print('Connected by', addr)
-queried_hostnames_str = conn.recv(2048)
-queried_hostnames = queried_hostnames_str.split() #list of all hostnames being queried
-print('query: '+ str(queried_hostnames))
+queried_hostname= conn.recv(2048)
 
-sendBack = ""
-for query in queried_hostnames:
-	query = query.lower()
-	sendBack += query + " " + DNSRS_table.get(query, "- Error:HOST NOT FOUND") + ","
+for query in DNSTS_EDU
+	if queried_hostname == DNSTS_EDU[query]:
+		conn.sendall(DNSTS_EDU[query])
 
-print("SENDBACK: "+sendBack)
-conn.sendall(sendBack)
+
 
 ss.close()
 exit()
